@@ -7,7 +7,7 @@ import {
 } from '@react-navigation/native';
 import {useEffect, useRef} from 'react';
 import {BackHandler} from 'react-native';
-import {ScreenName} from './navigation-route';
+import {ScreenName, NavigatorParamList} from './navigation-route';
 
 export const RootNavigation = {
   navigate(_name: string, _params?: any) {},
@@ -20,7 +20,7 @@ export const RootNavigation = {
   dispatch(_action: NavigationAction) {},
 };
 
-export const navigationRef = createNavigationContainerRef();
+export const navigationRef = createNavigationContainerRef<NavigatorParamList>();
 
 /**
  * Gets the current screen from any navigation state.
@@ -79,11 +79,10 @@ export function useBackButtonHandler(canExit: (routeName: string) => boolean) {
     };
 
     // Subscribe when we come to life
-    BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    const subscription = BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
     // Unsubscribe when we're done
-    return () =>
-      BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    return () => subscription.remove();
   }, []);
 }
 

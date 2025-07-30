@@ -36,6 +36,8 @@ const Tab = createBottomTabNavigator<NavigatorParamList>();
 
 const TabStack = () => {
   const styles = createStyle();
+  const insets = useSafeAreaInsets();
+  
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -79,7 +81,7 @@ const TabStack = () => {
         tabBarStyle: {
           height:
             Platform.OS == 'ios'
-              ? scale(50 + useSafeAreaInsets().bottom)
+              ? scale(50 + insets.bottom)
               : scale(60),
           backgroundColor: colors.black,
         },
@@ -126,7 +128,7 @@ const CombinedStack = () => {
   const isAuthenticated = false;
   return (
     <Stack.Navigator
-      screenOptions={{headerShown: false, animationEnabled: true}}>
+      screenOptions={{headerShown: false}}>
       <Stack.Screen
         name="auth"
         options={{
